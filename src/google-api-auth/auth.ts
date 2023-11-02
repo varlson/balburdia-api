@@ -1,5 +1,6 @@
 import { google } from "googleapis";
-const spreadsheetId = process.env.SHEETS;
+const spreadsheetId =
+  process.env.SHEETS || "1OuQtXBRgLzr3VOJA2k0nLXBq43CTnqTROh24k_u7JbY";
 
 export const getAuthSheets = async () => {
   const auth = new google.auth.GoogleAuth({
@@ -14,7 +15,7 @@ export const getAuthSheets = async () => {
     auth: client,
   });
 
-  const spreadsheetId = "1C7xaYkzDgszfZNuqzXMK_QKmWr6jbwjUs4QIK28HBaE";
+  // const spreadsheetId = "1C7xaYkzDgszfZNuqzXMK_QKmWr6jbwjUs4QIK28HBaE";
 
   return {
     auth,
