@@ -3,7 +3,11 @@ import express, { Request, Response } from "express";
 const app = express();
 import route from "./routes/routes";
 import dotenv from "dotenv";
+import cors from "cors";
 dotenv.config();
+
+app.use(cors());
+app.use(express.json());
 
 const PORT = process.env.PORT || 3001;
 app.get("/", (req: Request, res: Response) => {
