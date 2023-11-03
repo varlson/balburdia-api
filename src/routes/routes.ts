@@ -83,7 +83,9 @@ route.get("/expenses", async (req: Request, res: Response) => {
     expenses.data.values?.map((item, index) => {
       if (index < size - 1) {
         const [_index, desc, date, value, author] = item;
-
+        if (desc == "" || desc == undefined) {
+          return;
+        }
         data.push({ desc, author, value, date });
       }
     });
@@ -101,5 +103,7 @@ route.get("/expenses", async (req: Request, res: Response) => {
     });
   }
 });
+
+route.get("/get-datas", async (req: Request, res: Response) => {});
 
 export default route;
