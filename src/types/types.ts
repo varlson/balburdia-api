@@ -3,6 +3,7 @@ export type ExpensesType = {
   desc: string;
   value: string;
   date: string;
+  link: string;
 };
 
 export type MonthStatusType = {

@@ -61,17 +61,17 @@ route.get("/expenses", async (req, res) => {
         const expenses = await googleSheets.spreadsheets.values.get({
             auth,
             spreadsheetId,
-            range: "api!G3:K21",
+            range: "api!G3:L21",
         });
         const data = [];
         const size = expenses.data.values?.length - 1;
         expenses.data.values?.map((item, index) => {
             if (index < size - 1) {
-                const [_index, desc, date, value, author] = item;
+                const [_index, desc, date, value, author, link] = item;
                 if (desc == "" || desc == undefined) {
                     return;
                 }
-                data.push({ desc, author, value, date });
+                data.push({ desc, author, value, date, link });
             }
         });
         return res.status(200).json({
