@@ -12,3 +12,8 @@ export type MonthStatusType = {
   totalExpenses: string;
   balance: string;
 };
+
+export type ResidentType = {
+  name: string;
+  status: string;
+};

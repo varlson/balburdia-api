@@ -1,6 +1,6 @@
 import { Request, Response, Router } from "express";
 import { getAuthSheets } from "../google-api-auth/auth";
-import { ExpensesType, MonthStatusType } from "../types/types";
+import { ExpensesType, MonthStatusType, ResidentType } from "../types/types";
 const route = Router();
 
 route.get("/month-status", async (req: Request, res: Response) => {
@@ -23,14 +23,14 @@ route.get("/month-status", async (req: Request, res: Response) => {
       [label2, totalExpenses],
       [label3, balance],
       [label4, currentMonth],
-    ] = _balance.data.values;
+    ] = _balance.data.values as any;
 
     return res.status(200).json({
       status: true,
       //   datas: balance.data,
       datas: { currentMonth, totalOfMonth, totalExpenses, balance },
     });
-  } catch (error) {
+  } catch (error: any) {
     return res.status(501).json({
       status: false,
       error: error.message,
@@ -47,11 +47,13 @@ route.get("/payers", async (req: Request, res: Response) => {
       range: "api!A2:B13",
     });
 
-    const data = {};
+    const data: ResidentType[] = [];
 
     payers.data.values?.map((item) => {
-      const id = item[0] as string;
-      data[id] = item[1];
+      // const id = item[0] as string;
+      // data[id] = item[1];
+      const [name, status] = item;
+      data.push({ name, status });
     });
 
     return res.status(200).json({
@@ -59,7 +61,7 @@ route.get("/payers", async (req: Request, res: Response) => {
       //   datas: payers.data,
       datas: data,
     });
-  } catch (error) {
+  } catch (error: any) {
     return res.status(501).json({
       status: false,
       error: error.message,
@@ -93,10 +95,10 @@ route.get("/expenses", async (req: Request, res: Response) => {
     return res.status(200).json({
       status: true,
       data: data,
-      total: expenses.data.values[size][1],
+      total: expenses.data.values[size][1] || "Invalida",
       // data: expenses.data,
     });
-  } catch (error) {
+  } catch (error: any) {
     return res.status(200).json({
       status: false,
       error: error?.message || "houve um erro interno",

@@ -37,10 +37,12 @@ route.get("/payers", async (req, res) => {
             spreadsheetId,
             range: "api!A2:B13",
         });
-        const data = {};
+        const data = [];
         payers.data.values?.map((item) => {
-            const id = item[0];
-            data[id] = item[1];
+            // const id = item[0] as string;
+            // data[id] = item[1];
+            const [name, status] = item;
+            data.push({ name, status });
         });
         return res.status(200).json({
             status: true,
@@ -77,7 +79,7 @@ route.get("/expenses", async (req, res) => {
         return res.status(200).json({
             status: true,
             data: data,
-            total: expenses.data.values[size][1],
+            total: expenses.data.values[size][1] || "Invalida",
             // data: expenses.data,
         });
     }
