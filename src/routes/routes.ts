@@ -1,6 +1,11 @@
 import { Request, Response, Router } from "express";
 import { getAuthSheets } from "../google-api-auth/auth";
-import { ExpensesType, MonthStatusType, ResidentType } from "../types/types";
+import {
+  ExpensesType,
+  FineType,
+  MonthStatusType,
+  ResidentType,
+} from "../types/types";
 const route = Router();
 
 route.get("/month-status", async (req: Request, res: Response) => {
@@ -106,6 +111,37 @@ route.get("/expenses", async (req: Request, res: Response) => {
   }
 });
 
-route.get("/get-datas", async (req: Request, res: Response) => {});
+route.get("/fines", async (req: Request, res: Response) => {
+  const { googleSheets, auth, spreadsheetId } = await getAuthSheets();
+  const data: FineType[] = [];
+  try {
+    const fines = await googleSheets.spreadsheets.values.get({
+      auth,
+      spreadsheetId,
+      range: "api!A18:D29",
+    });
+
+    fines.data.values?.map((item) => {
+      const [desc, status, value, resident] = item;
+      if (desc == "" || desc == undefined) return;
+      data.push({
+        desc,
+        status: status == "FALSE" ? false : true,
+        value,
+        resident,
+      });
+    });
+
+    return res.status(200).json({
+      status: true,
+      data: data,
+    });
+  } catch (error: any) {
+    return res.status(501).json({
+      status: false,
+      error: error.message,
+    });
+  }
+});
 
 export default route;

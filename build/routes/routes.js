@@ -90,5 +90,36 @@ route.get("/expenses", async (req, res) => {
         });
     }
 });
-route.get("/get-datas", async (req, res) => { });
+route.get("/fines", async (req, res) => {
+    const { googleSheets, auth, spreadsheetId } = await (0, auth_1.getAuthSheets)();
+    const data = [];
+    try {
+        const fines = await googleSheets.spreadsheets.values.get({
+            auth,
+            spreadsheetId,
+            range: "api!A18:D29",
+        });
+        fines.data.values?.map((item) => {
+            const [desc, status, value, resident] = item;
+            if (desc == "" || desc == undefined)
+                return;
+            data.push({
+                desc,
+                status: status == "FALSE" ? false : true,
+                value,
+                resident,
+            });
+        });
+        return res.status(200).json({
+            status: true,
+            data: data,
+        });
+    }
+    catch (error) {
+        return res.status(501).json({
+            status: false,
+            error: error.message,
+        });
+    }
+});
 exports.default = route;
