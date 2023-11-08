@@ -1,8 +1,7 @@
 import { google } from "googleapis";
-const spreadsheetId =
-  process.env.SHEETS || "1OuQtXBRgLzr3VOJA2k0nLXBq43CTnqTROh24k_u7JbY";
 
 export const getAuthSheets = async () => {
+  const spreadsheetId = process.env.SHEETS;
   const auth = new google.auth.GoogleAuth({
     keyFile: "credentials.json",
     scopes: "https://www.googleapis.com/auth/spreadsheets",

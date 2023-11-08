@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getAuthSheets = void 0;
 const googleapis_1 = require("googleapis");
-const spreadsheetId = process.env.SHEETS || "1OuQtXBRgLzr3VOJA2k0nLXBq43CTnqTROh24k_u7JbY";
 const getAuthSheets = async () => {
+    const spreadsheetId = process.env.SHEETS;
     const auth = new googleapis_1.google.auth.GoogleAuth({
         keyFile: "credentials.json",
         scopes: "https://www.googleapis.com/auth/spreadsheets",
