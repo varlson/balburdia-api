@@ -1,4 +1,5 @@
-import { Request, Response, Router } from "express";
+import axios from "axios";
+import { Request, Response, Router, response } from "express";
 import { getAuthSheets } from "../google-api-auth/auth";
 import {
   ExpensesType,
@@ -6,10 +7,12 @@ import {
   MonthStatusType,
   ResidentType,
 } from "../types/types";
+import { getGoogleAuthSheets } from "../google-api-auth/google";
 const route = Router();
 
 route.get("/month-status", async (req: Request, res: Response) => {
-  const { googleSheets, auth, spreadsheetId } = await getAuthSheets();
+  // const { googleSheets, auth, spreadsheetId } = await getAuthSheets();
+  const { googleSheets, auth, spreadsheetId } = await getGoogleAuthSheets();
 
   try {
     const _balance = await googleSheets.spreadsheets.values.get({
@@ -44,7 +47,9 @@ route.get("/month-status", async (req: Request, res: Response) => {
 });
 
 route.get("/payers", async (req: Request, res: Response) => {
-  const { googleSheets, auth, spreadsheetId } = await getAuthSheets();
+  const { googleSheets, auth, spreadsheetId } = await getGoogleAuthSheets();
+
+  // const { googleSheets, auth, spreadsheetId } = await getAuthSheets();
   try {
     const payers = await googleSheets.spreadsheets.values.get({
       auth,
@@ -75,7 +80,8 @@ route.get("/payers", async (req: Request, res: Response) => {
 });
 
 route.get("/expenses", async (req: Request, res: Response) => {
-  const { googleSheets, auth, spreadsheetId } = await getAuthSheets();
+  // const { googleSheets, auth, spreadsheetId } = await getAuthSheets();
+  const { googleSheets, auth, spreadsheetId } = await getGoogleAuthSheets();
 
   try {
     const expenses = await googleSheets.spreadsheets.values.get({
@@ -112,7 +118,8 @@ route.get("/expenses", async (req: Request, res: Response) => {
 });
 
 route.get("/fines", async (req: Request, res: Response) => {
-  const { googleSheets, auth, spreadsheetId } = await getAuthSheets();
+  // const { googleSheets, auth, spreadsheetId } = await getAuthSheets();
+  const { googleSheets, auth, spreadsheetId } = await getGoogleAuthSheets();
   const data: FineType[] = [];
   try {
     const fines = await googleSheets.spreadsheets.values.get({
@@ -140,6 +147,7 @@ route.get("/fines", async (req: Request, res: Response) => {
     return res.status(501).json({
       status: false,
       error: error.message,
+      fullError: error,
     });
   }
 });

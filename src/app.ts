@@ -2,8 +2,9 @@ import { getAuthSheets } from "./google-api-auth/auth";
 import express, { Request, Response } from "express";
 const app = express();
 import route from "./routes/routes";
-import dotenv from "dotenv";
+// import dotenv from "dotenv";
 import cors from "cors";
+import dotenv from "dotenv";
 dotenv.config();
 
 app.use(cors());

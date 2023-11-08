@@ -24,3 +24,10 @@ export type FineType = {
   value: string;
   resident: string;
 };
+
+export type ConfType = {
+  projectId: string;
+  client_email: string;
+  private_key: string;
+  spreadsheetId: string;
+};
