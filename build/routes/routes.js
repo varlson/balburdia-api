@@ -37,7 +37,7 @@ route.get("/payers", async (req, res) => {
         const payers = await googleSheets.spreadsheets.values.get({
             auth,
             spreadsheetId,
-            range: "api!A2:B13",
+            range: "api!A2:B15",
         });
         const data = [];
         payers.data.values?.map((item) => {

@@ -54,7 +54,7 @@ route.get("/payers", async (req: Request, res: Response) => {
     const payers = await googleSheets.spreadsheets.values.get({
       auth,
       spreadsheetId,
-      range: "api!A2:B13",
+      range: "api!A2:B15",
     });
 
     const data: ResidentType[] = [];
